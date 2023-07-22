@@ -1,0 +1,30 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length; //number of rows
+        int n = matrix[0].length; // number of columns
+        
+        boolean[] row_zeroes = new boolean[m]; //represents which row has to be zero and non-zero
+        boolean[] col_zeroes = new boolean[n]; //represents which col has to be zero and non-zero
+        
+        // traverse on the 2d matrix and if value at index is zero, mark the corresponding row and col as true  
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(matrix[i][j] == 0){
+                    row_zeroes[i] = true;
+                    col_zeroes[j] = true;
+                }
+            }
+        }
+        
+        // traverse the 2d matrix again, mark the index as 0 either row[i] = true or col[j] = true
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(row_zeroes[i] || col_zeroes[j])
+                    matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+// TC :- 0(m * n)
+// SC :- 0(max(m, n))
