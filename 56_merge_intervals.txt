@@ -1,0 +1,37 @@
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        
+        Arrays.sort(intervals, (arr1, arr2) -> arr1[0] == arr2[0] ? Integer.compare(arr1[1], arr2[1]) 
+                                             : Integer.compare(arr1[0], arr2[0]));
+        
+        List<List<Integer>>list = new ArrayList<>();
+        ArrayList<Integer>temp = new ArrayList<>();
+        temp.add(intervals[0][0]);
+        temp.add(intervals[0][1]);
+        list.add(temp);
+        
+        
+        int n = intervals.length;
+        for(int i = 1; i < n; i++){
+            int element = list.get(list.size() - 1).get(1);
+            if(element >= intervals[i][0] || element >= intervals[i][1]){
+                element = Math.max(element, intervals[i][1]);
+                list.get(list.size() - 1).set(1, element);
+            }else{
+                temp = new ArrayList<>();
+                temp.add(intervals[i][0]);
+                temp.add(intervals[i][1]);
+                list.add(temp);
+            }
+        }
+        
+        int[][] res = new int[list.size()][2];
+        for(int i = 0; i < list.size(); i++){
+            res[i][0] = list.get(i).get(0);
+            res[i][1] = list.get(i).get(1);
+        }
+        
+        return res;
+        
+    }
+}
