@@ -1,0 +1,40 @@
+public class Solution {
+    public static List<Integer> quickSort(List<Integer> arr){
+        // Write your code here.
+        quickSort(arr, 0, arr.size() - 1);
+        return arr;
+    }
+
+    public static void quickSort(List<Integer>arr, int low, int high){
+        if(low >= high)
+            return;
+        int pivot = parition(arr, low, high);
+        quickSort(arr, low, pivot - 1);
+        quickSort(arr, pivot + 1, high);
+    }
+
+    public static int parition(List<Integer>arr, int i, int j){
+        int low = i, high = j;
+        int pivot = low;
+        while(low < high){
+            while(low < j && arr.get(low) <= arr.get(pivot))
+                low++;
+            while(high > i && arr.get(high) > arr.get(pivot))
+                high--;
+            if(low < high)
+                swap(arr, low, high);
+        }
+        swap(arr, pivot, high);
+        return high;
+    }
+
+    public static void swap(List<Integer>arr, int i, int j){
+        int temp = arr.get(i);
+        arr.set(i, arr.get(j));
+        arr.set(j, temp);
+    }
+
+}
+
+// TC - 0(NlogN)
+// SC - 0(1)
