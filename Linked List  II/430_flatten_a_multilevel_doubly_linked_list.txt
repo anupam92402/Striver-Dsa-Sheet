@@ -1,0 +1,37 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+};
+*/
+
+class Solution {
+    Stack<Node>stack = new Stack<>();
+    public Node flatten(Node head) {
+        Node temp = head, prev = null;
+        while(temp != null){
+            prev = temp;
+            if(temp.child != null){
+                stack.push(temp.next);
+                temp.next = temp.child;
+                temp.child.prev = temp;
+                temp.child = null;
+            }
+            temp = temp.next;
+        }
+        if(!stack.isEmpty()){
+            Node pop = stack.pop();
+            prev.next = pop;
+            if(pop != null)
+                pop.prev = prev;
+            flatten(prev);
+        }
+        return head;
+    }
+}
+
+// TC:- 0(N)
+// SC:- 0(1)
