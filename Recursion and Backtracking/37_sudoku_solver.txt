@@ -1,0 +1,63 @@
+class Solution {
+  public static void solveSudoku(char[][] board) {
+		int N = 9;
+		int[][] rows = new int[N][N];
+		int[][] cols = new int[N][N];
+		int[][] boxes = new int[N][N];
+		fill(rows, cols, boxes, board);
+		solve(board, rows, cols, boxes);
+	}
+
+	private static void fill(int[][] rows, int[][] cols, int[][] boxes, char[][] board) {
+
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
+				if (board[r][c] != '.') {
+					int pos = board[r][c] - '1';
+					rows[r][pos] = 1;
+					cols[c][pos] = 1;
+					boxes[((r / 3) * 3) + (c / 3)][pos] = 1;
+				}
+			}
+		}
+
+	}
+
+	private static boolean solve(char[][] board, int[][] rows, int[][] cols, int[][] boxes) {
+
+		int N = 9;
+
+		for (int r = 0; r < N; r++) {
+			for (int c = 0; c < N; c++) {
+				if (board[r][c] != '.') {
+					continue;
+				}
+				for (int num = 1; num <= 9; num++) {
+					if (rows[r][num - 1] == 1 || cols[c][num - 1] == 1) {
+						continue;
+					}
+
+					int box = ((r / 3) * 3) + (c / 3);
+					if (boxes[box][num - 1] == 1) {
+						continue;
+					}
+					rows[r][num - 1] = 1;
+					cols[c][num - 1] = 1;
+					boxes[box][num - 1] = 1;
+					board[r][c] = (char) (num + '0');
+					if (solve(board, rows, cols, boxes)) {
+						return true;
+					}
+					board[r][c] = '.';
+					rows[r][num - 1] = 0;
+					cols[c][num - 1] = 0;
+					boxes[box][num - 1] = 0;
+				}
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+}
