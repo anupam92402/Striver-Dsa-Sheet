@@ -1,0 +1,26 @@
+class Solution {
+    public String getPermutation(int n, int k) {
+        int factorial = 1;
+        ArrayList<Integer>nums = new ArrayList<>();
+        for(int i = 1; i <= n; i++){
+            factorial *= i;
+            nums.add(i);
+        }
+        int group = factorial / n;
+        StringBuilder sb = new StringBuilder();
+        while(n > 1){
+            int index = (k - 1) / group;
+            sb.append(nums.get(index));
+            nums.remove(index);
+            factorial /= n;
+            n--;
+            k = k % group == 0 ? group : k % group;
+            group = factorial / n;
+        }
+        sb.append(nums.get(0));
+        return sb.toString();
+    }
+}
+
+// TC :- 0(N)
+// SC :- 0(N) 
