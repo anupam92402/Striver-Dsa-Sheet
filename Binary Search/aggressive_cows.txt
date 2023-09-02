@@ -1,0 +1,36 @@
+import java.util.*;
+public class Solution {
+    public static int aggressiveCows(int []stalls, int k) {
+        //    Write your code here.
+        Arrays.sort(stalls);
+        int n = stalls.length;
+        int maxDistance = stalls[n - 1] - stalls[0];
+        int answer = -1;
+        int low = 1, high = maxDistance;
+        while(low <= high){
+            int mid = low + (high - low) / 2;
+            if(safeToPlace(stalls, mid, k)){
+                answer = mid;
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+        }
+        return answer;
+    }
+
+    public static boolean safeToPlace(int[] stalls, int distance, int cows){
+        int lastCowPlaced = stalls[0];
+        cows--;
+        for(int i = 1; i < stalls.length && cows > 0; i++){
+            if(stalls[i] - lastCowPlaced >= distance){
+                cows--;
+                lastCowPlaced = stalls[i];
+            }
+        }
+        return cows == 0;
+    }
+}
+
+// TC :- 0(NLog(N))
+// SC :- 0(1)
