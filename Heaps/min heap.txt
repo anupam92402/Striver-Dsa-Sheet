@@ -1,0 +1,85 @@
+package practice;
+
+import java.util.ArrayList;
+
+
+public class heap {
+
+	ArrayList<Integer> list;
+
+	heap() {
+		list = new ArrayList<>();
+	}
+
+	public void add(int element) {
+		list.add(element);
+		upheapify(list.size() - 1);
+	}
+
+	public void upheapify(int childIndex) {
+		int pi = (childIndex - 1) / 2; // parent index
+		if (list.get(pi) > list.get(childIndex)) {
+			swap(pi, childIndex);
+			upheapify(pi);
+		}
+	}
+
+	public void swap(int i, int j) {
+		int iElement = list.get(i);
+		int jElement = list.get(j);
+
+		list.set(i, jElement);
+		list.set(j, iElement);
+	}
+
+	public int peek() {
+		if (list.size() == 0) {
+			// throw new Exception("null pointer exception");
+			return -1;
+		}
+		return list.get(0);
+	}
+
+	public int remove() {
+		swap(0, list.size() - 1);
+		int element = list.remove(list.size() - 1);
+		downheapify(0);
+		return element;
+	}
+
+	public void downheapify(int pi) {
+		int min = pi;
+		int left = (pi * 2) + 1;
+		if (left < list.size() && list.get(left) < list.get(min)) {
+			min = left;
+		}
+		int right = (pi * 2) + 2;
+		if (right < list.size() && list.get(right) < list.get(min)) {
+			min = right;
+		}
+		if (pi != min) {
+			swap(pi, min);
+			downheapify(min);
+		}
+	}
+
+	public void display() {
+		for (int i : list) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		heap h = new heap();
+		h.add(1);
+		h.add(2);
+		h.add(3);
+		h.display();
+		System.out.println(h.peek());
+		h.remove();
+		h.display();
+		System.out.println(h.peek());
+
+	}
+}
